@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +28,6 @@ import java.util.ConcurrentModificationException;
 import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface{
-    private static RecyclerViewInterface recyclerViewInterface;
     RecyclerView recyclerView;
     ArrayList<Camping> campings;
     ArrayList<Camping> campings_filter;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     }
 
     private void setupData() {
-        adapter = new CampingsAdapter(campings, getApplicationContext(),recyclerViewInterface);
+        adapter = new CampingsAdapter(campings, getApplicationContext(),this);
         recyclerView.setAdapter(adapter);
     }
 

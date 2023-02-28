@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class CampingsAdapter extends RecyclerView.Adapter<CampingsAdapter.ViewHolder>
 {
-    private static RecyclerViewInterface recyclerViewInterface;
+    private final RecyclerViewInterface recyclerViewInterface;
     private ArrayList<Camping> campings;
     Context context;
     public CampingsAdapter(ArrayList<Camping> _campings, Context _context, RecyclerViewInterface _recyclerViewInterface)
