@@ -31,7 +31,7 @@ public class CampingsAdapter extends RecyclerView.Adapter<CampingsAdapter.ViewHo
     @Override
     public CampingsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.camping_item,parent,false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,recyclerViewInterface);
     }
 
     // vicula los datos al textview para cada item
@@ -50,12 +50,12 @@ public class CampingsAdapter extends RecyclerView.Adapter<CampingsAdapter.ViewHo
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView campingName;
         TextView campingCategoria;
         TextView campingLugar;
         TextView campingCorreo;
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             campingName = itemView.findViewById(R.id.campingName);
             campingCategoria = itemView.findViewById(R.id.campingCategoria);
@@ -65,8 +65,13 @@ public class CampingsAdapter extends RecyclerView.Adapter<CampingsAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (recyclerViewInterface != null)
-                        ;
+                    if (recyclerViewInterface != null){
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
                 }
             });
         }

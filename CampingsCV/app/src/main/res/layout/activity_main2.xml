@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity2">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Nombre"
+            android:fontFamily="cursive"
+            android:textSize="100px"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:id="@+id/campingName"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="50px"
+            android:text="Categoria"
+            android:fontFamily="casual"
+            android:textColor="@color/black"
+            android:id="@+id/campingCategoria"
+            android:layout_toEndOf="@+id/campingName"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="50px"
+            android:text="Lugar de donde esta el camping"
+            android:textColor="@color/black"
+            android:id="@+id/campingLugar"
+            android:layout_toEndOf="@+id/campingCategoria"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="50px"
+            android:text="Direccion de correo del camping"
+            android:textColor="@color/black"
+            android:id="@+id/campingCorreo"
+            android:layout_toEndOf="@+id/campingLugar"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</FrameLayout>

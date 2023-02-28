@@ -1,8 +1,9 @@
 package david.pablo.uv.es;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class Camping {
+public class Camping implements Serializable {
     private String Nombre;
     private String Categoria;
     private String Provincia;
@@ -29,6 +30,7 @@ public class Camping {
         return Correo;
     }
 
+    public Camping(){}
     public Camping(String nombre, String categoria, String provincia, String municipio, String correo){
         Nombre = nombre;
         Categoria = categoria;

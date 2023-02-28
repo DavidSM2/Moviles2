@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -22,6 +23,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface{
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     }
 
     private void setupData() {
-        adapter = new CampingsAdapter(campings, getApplicationContext());
+        adapter = new CampingsAdapter(campings, getApplicationContext(),recyclerViewInterface);
         recyclerView.setAdapter(adapter);
     }
 
@@ -109,6 +111,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     @Override
     public void onItemClick(int position) {
+        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        Camping camping = campings.get(position);
 
+        intent.putExtra("camping",camping);
+
+        startActivity(intent);
     }
 }
