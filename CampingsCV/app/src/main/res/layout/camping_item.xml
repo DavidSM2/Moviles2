@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    card_view:cardCornerRadius="30dp"
+    card_view:cardElevation="8dp"
+    card_view:cardBackgroundColor="#1698D8">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Nombre"
+            android:fontFamily="cursive"
+            android:textSize="100px"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:id="@+id/campingName"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="50px"
+            android:text="Categoria"
+            android:fontFamily="casual"
+            android:textColor="@color/white"
+            android:id="@+id/campingCategoria"
+            android:layout_toEndOf="@+id/campingName"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="50px"
+            android:text="Lugar de donde esta el camping"
+            android:textColor="@color/white"
+            android:id="@+id/campingLugar"
+            android:layout_toEndOf="@+id/campingCategoria"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="50px"
+            android:text="Direccion de correo del camping"
+            android:textColor="@color/white"
+            android:id="@+id/campingCorreo"
+            android:layout_toEndOf="@+id/campingLugar"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
