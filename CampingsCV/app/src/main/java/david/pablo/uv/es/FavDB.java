@@ -1,10 +1,16 @@
 package david.pablo.uv.es;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.CharArrayBuffer;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
@@ -87,8 +93,10 @@ public class FavDB extends SQLiteOpenHelper {
 
         return cursor;
     }
+    /*
     public Cursor isFav (int id) {
-        ?????????????
-        return ;
+
     }
+    */
+
 }
