@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 public class Camping implements Serializable {
+    private int CP;
+    private String Periodo;
+    private int Plazas;
+    private String Direcion;
+    private String Web;
     private String Nombre;
     private String Categoria;
     private String Provincia;
@@ -29,14 +34,33 @@ public class Camping implements Serializable {
     public String getCorreo() {
         return Correo;
     }
-
-    public Camping(){}
-    public Camping(String nombre, String categoria, String provincia, String municipio, String correo){
+    
+    public String getPeriodo() {
+        return Periodo;
+    }
+    public int getPlazas() {
+        return Plazas;
+    }
+    public String getDirecion() {
+        return Direcion;
+    }
+    public String getWeb() {
+        return Web;
+    }
+    public int getCP() {
+        return CP;
+    }
+    public Camping(String nombre, String categoria, String provincia, String municipio, String correo, String web, String periodo, int plazas, String direccion, int cp){
         Nombre = nombre;
         Categoria = categoria;
         Provincia = provincia;
         Municipio = municipio;
         Correo = correo;
+        Web = web;
+        Periodo = periodo;
+        Plazas = plazas;
+        Direcion = direccion;
+        CP = cp;
     }
 
     public static Comparator<Camping> comparadorNombreDescendente = new Comparator<Camping>() {

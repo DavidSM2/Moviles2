@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity"
+    android:layout_marginTop="10dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maps"
+            android:onClick="showMap"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Web"
+            android:layout_gravity="center"
+            android:onClick="showWeb"/>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="40dp"
+        android:layout_marginTop="70dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Nombre"
+            android:fontFamily="cursive"
+            android:textSize="110px"
+            android:textAlignment="center"
+            android:textColor="#1698D8"
+            android:id="@+id/campingName"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="55px"
+            android:text="Categoria"
+            android:layout_marginTop="20dp"
+            android:fontFamily="casual"
+            android:textColor="#1698D8"
+            android:id="@+id/campingCategoria"
+            android:layout_toEndOf="@+id/campingName"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="55px"
+            android:text="Municipio del camping (Provincia)"
+            android:textColor="#1698D8"
+            android:id="@+id/campingLugar"
+            android:layout_toEndOf="@+id/campingCategoria"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="55px"
+            android:text="Direccion de correo del camping"
+            android:textColor="#1698D8"
+            android:id="@+id/campingCorreo"
+            android:layout_toEndOf="@+id/campingLugar"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="55px"
+            android:text="Direccion del camping (CP)"
+            android:textColor="#1698D8"
+            android:id="@+id/campingDireccion"
+            android:layout_toEndOf="@+id/campingCorreo"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="55px"
+            android:text="Periodo Apertura"
+            android:textColor="#1698D8"
+            android:id="@+id/campingPeriodo"
+            android:layout_toEndOf="@+id/campingDireccion"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="55px"
+            android:text="Plazas: 55"
+            android:textColor="#1698D8"
+            android:id="@+id/campingPlazas"
+            android:layout_toEndOf="@+id/campingDireccion"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</FrameLayout>

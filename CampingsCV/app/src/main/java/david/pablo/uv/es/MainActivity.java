@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,13 +24,12 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.stream.Stream;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewInterface{
     RecyclerView recyclerView;
+    EditText editTextBusqueda;
     ArrayList<Camping> campings;
     ArrayList<Camping> campings_filter;
     CampingsAdapter adapter;
@@ -41,8 +42,44 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview_campings);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        editTextBusqueda = findViewById(R.id.textoBusqueda);
         campings = new ArrayList<Camping>();
         getData();
+
+        editTextBusqueda.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String textoBusqueda = charSequence.toString().toLowerCase();
+
+                if (textoBusqueda == ""){
+                    setupData();
+                }
+
+                else {
+                    campings_filter = new ArrayList<>();
+                    for (Camping camping : campings) {
+                        if (camping.getNombre().toLowerCase().contains(textoBusqueda.toLowerCase())) {
+                            campings_filter.add(camping);
+
+                        }
+                    }
+
+                    setupDataFiltered();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+
+
+
     }
 
     public void getData() {
@@ -77,8 +114,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 String municipio = JSONCamping.getString("Municipio");
                 String provincia = JSONCamping.getString("Provincia");
                 String correo = JSONCamping.getString("Email");
+                String web = JSONCamping.getString("Web");
+                String periodo = JSONCamping.getString("Periodo");
+                int plazas = JSONCamping.getInt("Plazas");
+                String direccion = JSONCamping.getString("Direccion");
+                int cp = JSONCamping.getInt("CP");
+
                 System.out.println(correo);
-                Camping camping = new Camping(nombre, categoria, provincia, municipio,correo);
+                Camping camping = new Camping(nombre, categoria, provincia, municipio,correo,web,periodo,plazas,direccion,cp);
                 campings.add(camping);
             }
         } catch (JSONException e) {
@@ -90,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     private void setupData() {
         adapter = new CampingsAdapter(campings, getApplicationContext(),this);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setupDataFiltered() {
+        adapter = new CampingsAdapter(campings_filter, getApplicationContext(),this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -111,11 +159,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         Camping camping = campings.get(position);
 
         intent.putExtra("camping",camping);
 
         startActivity(intent);
     }
+
+
 }
