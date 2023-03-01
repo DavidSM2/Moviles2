@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2">
+    tools:context=".MainActivity2"
+    android:layout_marginTop="30dp">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
+        android:padding="50dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -17,15 +18,16 @@
             android:fontFamily="cursive"
             android:textSize="100px"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="#1698D8"
             android:id="@+id/campingName2"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="50px"
             android:text="Categoria"
+            android:layout_marginTop="20dp"
             android:fontFamily="casual"
-            android:textColor="@color/black"
+            android:textColor="#1698D8"
             android:id="@+id/campingCategoria2"
             android:layout_toEndOf="@+id/campingName2"/>
         <TextView
@@ -34,7 +36,7 @@
             android:fontFamily="casual"
             android:textSize="50px"
             android:text="Lugar de donde esta el camping"
-            android:textColor="@color/black"
+            android:textColor="#1698D8"
             android:id="@+id/campingLugar2"
             android:layout_toEndOf="@+id/campingCategoria2"/>
         <TextView
@@ -43,7 +45,7 @@
             android:fontFamily="casual"
             android:textSize="50px"
             android:text="Direccion de correo del camping"
-            android:textColor="@color/black"
+            android:textColor="#1698D8"
             android:id="@+id/campingCorreo2"
             android:layout_toEndOf="@+id/campingLugar2"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
