@@ -11,6 +11,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     ArrayList<Camping> campings_filter;
     CampingsAdapter adapter;
 
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         editTextBusqueda = findViewById(R.id.textoBusqueda);
+        fab = findViewById(R.id.fab);
         campings = new ArrayList<Camping>();
         getData();
 
@@ -75,9 +79,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             @Override
             public void afterTextChanged(Editable editable) {
             }
+
+
         });
-
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Lógica del botón flotante
+            }
+        });
 
 
     }
@@ -166,6 +176,4 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         startActivity(intent);
     }
-
-
 }
