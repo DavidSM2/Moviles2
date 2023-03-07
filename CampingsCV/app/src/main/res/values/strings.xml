@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CampingsCV</string>
+    <string name="nombre_ascendente">Nombre Ascendente</string>
+    <string name="nombre_descendente">Nombre Descendente</string>
 </resources>

@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
@@ -179,5 +180,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         intent.putExtra("camping",camping);
 
         startActivity(intent);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.overflow,menu);
+        return true;
     }
 }
