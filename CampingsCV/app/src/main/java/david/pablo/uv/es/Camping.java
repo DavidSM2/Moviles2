@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 public class Camping implements Serializable {
+    private int Id;
     private int CP;
     private String Periodo;
     private int Plazas;
@@ -14,6 +15,28 @@ public class Camping implements Serializable {
     private String Provincia;
     private String Municipio;
     private String Correo;
+
+ public Camping(){
+
+ }
+
+    public Camping(int id, int CP, String periodo, int plazas, String direcion, String web, String nombre, String categoria, String provincia, String municipio, String correo) {
+        Id = id;
+        this.CP = CP;
+        Periodo = periodo;
+        Plazas = plazas;
+        Direcion = direcion;
+        Web = web;
+        Nombre = nombre;
+        Categoria = categoria;
+        Provincia = provincia;
+        Municipio = municipio;
+        Correo = correo;
+    }
+
+    public int getId() {
+        return Id;
+    }
 
     public String getCategoria() {
         return Categoria;
