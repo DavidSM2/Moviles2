@@ -81,8 +81,8 @@ public class FavDB extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(
                 CAMPING_NAME,           // The table to query
-                null,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
+                null,                   // The array of columns to return (pass null to get all)
+                null,                   // The columns for the WHERE clause
                 null,                   // The values for the WHERE clause
                 null,                   // don't group the rows
                 null,                   // don't filter by row groups
