@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     ArrayList<Camping> campings_filter;
     CampingsAdapter adapter;
 
-    FloatingActionButton fab;
+    FloatingActionButton fav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +47,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         editTextBusqueda = findViewById(R.id.textoBusqueda);
-        fab = findViewById(R.id.fab);
+        fav = findViewById(R.id.fav);
         campings = new ArrayList<Camping>();
         getData();
+
 
         editTextBusqueda.addTextChangedListener(new TextWatcher() {
             @Override
@@ -82,10 +84,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
 
         });
-        fab.setOnClickListener(new View.OnClickListener() {
+        fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Lógica del botón flotante
+                Intent intent = new Intent(MainActivity.this, FavouriteActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -119,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             JSONArray JSONCampings = object.getJSONObject("result").getJSONArray("records");
             for (int i = 0; i < JSONCampings.length(); i++) {
                 JSONObject JSONCamping = JSONCampings.getJSONObject(i);
+                int id = JSONCamping.getInt("_id");
                 String nombre = JSONCamping.getString("Nombre");
                 String categoria = JSONCamping.getString("Categoria");
                 String municipio = JSONCamping.getString("Municipio");
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 int cp = JSONCamping.getInt("CP");
 
                 System.out.println(correo);
-                Camping camping = new Camping(nombre, categoria, provincia, municipio,correo,web,periodo,plazas,direccion,cp);
+                Camping camping = new Camping(id, cp, periodo, plazas, direccion, web, nombre, categoria, provincia, municipio, correo);
                 campings.add(camping);
             }
         } catch (JSONException e) {

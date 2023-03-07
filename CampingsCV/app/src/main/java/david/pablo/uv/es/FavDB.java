@@ -3,6 +3,7 @@ package david.pablo.uv.es;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.MutableContextWrapper;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -14,13 +15,21 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FavDB extends SQLiteOpenHelper {
-    private static int DB_VERSION = 1;
+    private static int DB_VERSION = 6;
     private static String DATABASE_NAME = "CampingsDB";
     private static String TABLE_NAME = "favoriteTable";
     public static String KEY_ID = "id";
     public static String CAMPING_NAME = "campingName";
-    private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY NOT NULL," + CAMPING_NAME + " TEXT)";
+    public static String CATEGORIA = "categoria";
+    public static String PROVINCIA = "provincia";
+    public static String MUNICIPIO = "municipio";
+    public static String CORREO = "correo";
+    private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY NOT NULL, " + CAMPING_NAME + " TEXT, " + CATEGORIA + " TEXT, "
+            + PROVINCIA + " TEXT, "+ MUNICIPIO + " TEXT, " + CORREO + " TEXT)";
     private static String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public FavDB(@Nullable Context context) {
@@ -29,6 +38,7 @@ public class FavDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -36,12 +46,16 @@ public class FavDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertCamping (String name, int id) {
+    public void insertCamping (Camping camping) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(CAMPING_NAME,name);
-
-        long newRowId = db.insert(TABLE_NAME,null,values);
+        values.put(CAMPING_NAME, camping.getNombre());
+        values.put(KEY_ID, camping.getId());
+        values.put(CATEGORIA, camping.getCategoria());
+        values.put(PROVINCIA, camping.getProvincia());
+        values.put(MUNICIPIO, camping.getMunicipio());
+        values.put(CORREO, camping.getCorreo());
+        db.insert(TABLE_NAME,null,values);
 
         db.close();
     }
@@ -59,44 +73,51 @@ public class FavDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Cursor read_all_data () {
+    public ArrayList<Camping>  read_all_data () {
+        ArrayList<Camping> campingList = new ArrayList<Camping>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_NAME;
+
         SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        /*
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        String[] projection = {
-                KEY_ID,
-                CAMPING_NAME
-        };
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Camping camping = new Camping(
+                        Integer.parseInt(cursor.getString(0)),
+                        0, //null
+                        null, //null
+                        0, //null
+                        null, //null
+                        null, //null
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        cursor.getString(5)
+                );
 
-        // Filter results WHERE "title" = 'My Title'
-        String selection = CAMPING_NAME + " = ?";
+                // Adding contact to list
+                campingList.add(camping);
+            } while (cursor.moveToNext());
+        }
 
-        */
-
-        // How you want the results sorted in the resulting Cursor
-        String sortOrder =
-                CAMPING_NAME + " DESC";
-
-        Cursor cursor = db.query(
-                CAMPING_NAME,           // The table to query
-                null,                   // The array of columns to return (pass null to get all)
-                null,                   // The columns for the WHERE clause
-                null,                   // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                sortOrder               // The sort order
-        );
-
-        db.close();
-
-        return cursor;
+        // return contact list
+        return campingList;
     }
-    /*
-    public Cursor isFav (int id) {
+
+    public Boolean isFav (int id) {
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_ID + "=" + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        return cursor.getCount() > 0;
+
 
     }
-    */
+
 
 }
