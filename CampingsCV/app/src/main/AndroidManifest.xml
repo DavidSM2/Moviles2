@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="david.pablo.uv.es">
 
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="david.pablo.uv.es">
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="33"
+        tools:ignore="GradleOverrides" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
