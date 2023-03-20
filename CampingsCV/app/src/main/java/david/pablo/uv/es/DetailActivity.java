@@ -66,12 +66,4 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
-
-    /*
-
-
-            favDB.insertCamping("CACA",1);
-            favDB.insertCamping("DOS",2);
-
-    * */
 }
