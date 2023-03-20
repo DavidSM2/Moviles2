@@ -60,6 +60,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
-        app:srcCompat="@drawable/my_icon"
+        app:srcCompat="@drawable/fav_icon"
         android:backgroundTint="@color/design_default_color_surface"/>
 </FrameLayout>

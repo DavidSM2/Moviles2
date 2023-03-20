@@ -1,5 +1,6 @@
 package david.pablo.uv.es;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         campings = new ArrayList<Camping>();
         getData();
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         editTextBusqueda.addTextChangedListener(new TextWatcher() {
             @Override

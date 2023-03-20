@@ -13,16 +13,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Maps"
+            android:background="@drawable/google_maps"
             android:onClick="showMap"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Web"
+            android:layout_width="190px"
+            android:layout_height="150px"
             android:layout_gravity="center"
+            android:background="@drawable/sitio_web"
             android:onClick="showWeb"/>
 
 
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
-        app:srcCompat="@drawable/my_icon"
+        app:srcCompat="@drawable/fav_icon"
         android:backgroundTint="@color/design_default_color_surface"/>
 
 </FrameLayout>
