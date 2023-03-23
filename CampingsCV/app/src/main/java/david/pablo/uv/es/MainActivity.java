@@ -1,5 +1,6 @@
 package david.pablo.uv.es;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -56,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         httpConnector = new HTTPConnector();
         httpConnector.execute();
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         editTextBusqueda.addTextChangedListener(new TextWatcher() {
             @Override
@@ -265,5 +272,25 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
 
         startActivity(intent);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.overflow,menu);
+        return true;
+    }
 
+    public void Ordenar_Ascendente(MenuItem item) {
+        campings_filter = new ArrayList<>();
+
+        Collections.sort(campings, Camping.comparadorNombreAscendente);
+
+        setupData();
+    }
+
+    public void Ordernar_Descendente(MenuItem item) {
+        campings_filter = new ArrayList<>();
+
+        Collections.sort(campings, Camping.comparadorNombreDescendente);
+
+        setupData();
+    }
 }

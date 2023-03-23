@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +50,11 @@ public class FavouriteActivity extends AppCompatActivity implements RecyclerView
             editTextBusqueda = findViewById(R.id.textoBusqueda);
             fav = findViewById(R.id.fav);
             campings = new ArrayList<Camping>();
+
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.hide();
+            }
 
             getData();
         }

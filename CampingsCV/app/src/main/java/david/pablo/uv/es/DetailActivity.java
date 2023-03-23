@@ -3,8 +3,11 @@ package david.pablo.uv.es;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,11 +19,20 @@ public class DetailActivity extends AppCompatActivity {
     FloatingActionButton fav;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         camping = (Camping) getIntent().getSerializableExtra("camping");
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         TextView textLugar = findViewById(R.id.campingLugar);
         TextView textNombre = findViewById(R.id.campingName);
@@ -66,12 +78,4 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
-
-    /*
-
-
-            favDB.insertCamping("CACA",1);
-            favDB.insertCamping("DOS",2);
-
-    * */
 }
