@@ -41,8 +41,6 @@ public class DetailActivity extends AppCompatActivity {
         TextView textDireccion = findViewById(R.id.campingDireccion);
         TextView textPeriodo = findViewById(R.id.campingPeriodo);
         TextView textPlazas = findViewById(R.id.campingPlazas);
-
-
         textLugar.setText(camping.getMunicipio() + "( " + camping.getProvincia() + ")");
         textNombre.setText(camping.getNombre());
         textCorreo.setText(camping.getCorreo());
@@ -52,13 +50,19 @@ public class DetailActivity extends AppCompatActivity {
         textPlazas.setText("Plazas: " + camping.getPlazas());
 
         fav = findViewById(R.id.fav);
+        if(favDB.isFav(camping.getId()))
+            fav.setImageResource(R.drawable.fav_icon);
+        else
+            fav.setImageResource(R.drawable.remove_fav);
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(favDB.isFav(camping.getId())){
+                    fav.setImageResource(R.drawable.remove_fav);
                     favDB.deleteCamping(camping.getId());
                 }
                 else{
+                    fav.setImageResource(R.drawable.fav_icon);
                     favDB.insertCamping(camping);
                 }
             }

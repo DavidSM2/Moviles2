@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         if (actionBar != null) {
             actionBar.hide();
         }
-
         editTextBusqueda.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -89,12 +88,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                     setupDataFiltered();
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
             }
-
-
         });
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,10 +99,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 startActivity(intent);
             }
         });
-
-
     }
-
     class HTTPConnector extends AsyncTask<String, Void, ArrayList> {
 
         @Override
@@ -170,106 +163,33 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         }
         @Override
         protected void onPostExecute(ArrayList campings) {
-
             setupData(campings);
         }
     }
-
-/*
-    public void getData() {
-        InputStream is = getApplicationContext().getResources().openRawResource(R.raw.datastore_search);
-        Writer writer = new StringWriter();
-        char[] buffer = new char[1024];
-        HTTPConnector httpConnector = new HTTPConnector();
-
-        try {
-
-
-                String url = "https://dadesobertes.gva.es/api/3/action/datastore_search?id=2ddaf823-5da4-4459-aa57-5bfe9f9eb474";
-
-                URL obj = new URL(url);
-                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-                con.setRequestMethod("GET");
-                //add request header
-                con.setRequestProperty("user-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
-                con.setRequestProperty("accept", "application/json;");
-                con.setRequestProperty("accept-language", "es");
-                con.connect();
-                int responseCode = con.getResponseCode();
-                if (responseCode != HttpURLConnection.HTTP_OK) {
-                    throw new IOException("HTTP error code: " + responseCode);
-                }
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
-                int n;
-                while ((n = in.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-                in.close();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-
-            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            int n;
-            while ((n = reader.read(buffer)) != -1) {
-                writer.write(buffer, 0, n);
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        //The String writer.toString() must be parsed in the campings ArrayList by using JSONArray and JSONObject
-
-        //TODO: read the data of each camping, create a new Camping object and insert it in the campings arraylist.
-        setupData();
-    }
-*/
-
     private void setupData(ArrayList<Camping> campings){
+        this.campings = campings;
         adapter = new CampingsAdapter(campings, getApplicationContext(),this);
         recyclerView.setAdapter(adapter);
     }
-
     private void setupDataFiltered() {
         adapter = new CampingsAdapter(campings_filter, getApplicationContext(),this);
         recyclerView.setAdapter(adapter);
     }
-
     public void Ordernar_Descendente(View view) {
         campings_filter = new ArrayList<>();
-
         Collections.sort(campings, Camping.comparadorNombreDescendente);
-
         setupData(campings);
     }
-
     public void Ordernar_Ascendente(View view) {
         campings_filter = new ArrayList<>();
-
         Collections.sort(campings, Camping.comparadorNombreAscendente);
-
         setupData(campings);
     }
-
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         Camping camping = campings.get(position);
-
         intent.putExtra("camping",camping);
-
         startActivity(intent);
     }
     @Override
@@ -277,20 +197,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         getMenuInflater().inflate(R.menu.overflow,menu);
         return true;
     }
-
     public void Ordenar_Ascendente(MenuItem item) {
         campings_filter = new ArrayList<>();
-
         Collections.sort(campings, Camping.comparadorNombreAscendente);
-
-        setupData();
+        setupData(campings);
     }
-
     public void Ordernar_Descendente(MenuItem item) {
         campings_filter = new ArrayList<>();
-
         Collections.sort(campings, Camping.comparadorNombreDescendente);
-
-        setupData();
+        setupData(campings);
     }
 }

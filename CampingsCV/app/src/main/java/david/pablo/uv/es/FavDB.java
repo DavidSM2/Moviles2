@@ -114,9 +114,7 @@ public class FavDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        return cursor.getCount() > 0;
-
-
+        return cursor.moveToFirst();
     }
 
 
