@@ -34,7 +34,6 @@ public class DetailActivity extends AppCompatActivity {
     Camping camping;
     FavDB favDB = new FavDB(this);
     FloatingActionButton fav;
-    Location actLocation;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,12 +44,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
-        } else {
-            locationStart();
-        }
 
         camping = (Camping) getIntent().getSerializableExtra("camping");
 
@@ -66,6 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView textDireccion = findViewById(R.id.campingDireccion);
         TextView textPeriodo = findViewById(R.id.campingPeriodo);
         TextView textPlazas = findViewById(R.id.campingPlazas);
+        TextView textDistancia = findViewById(R.id.campingDistancia);
         textLugar.setText(camping.getMunicipio() + "( " + camping.getProvincia() + ")");
         textNombre.setText(camping.getNombre());
         textCorreo.setText(camping.getCorreo());
@@ -91,12 +85,26 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    private void locationStart() {
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Localizacion Local = new Localizacion(this);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                // Este método se llama cuando la ubicación del usuario cambia
+            }
 
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+            }
+        };
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -107,21 +115,18 @@ public class DetailActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, Local);
-
-    }
-
-    public class Localizacion implements LocationListener {
-        DetailActivity detailActivity;
-        public Localizacion(DetailActivity detailActivity) {
-            this.detailActivity = detailActivity;
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location != null) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            textDistancia.setText("Distancia: " + latitude + " " + longitude);
+        }
+        else
+        {
+            textDistancia.setText("Dnd coño estas?");
         }
 
-        @Override
-        public void onLocationChanged(Location loc) {
-            String Text = "Mi ubicacion actual es: " + "\n Lat = " + loc.getLatitude() + "\n Long = " + loc.getLongitude();
-            detailActivity.actLocation = loc;
-        }
     }
 
     public void showMap(View view) {

@@ -2,11 +2,18 @@ package david.pablo.uv.es;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -44,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     CampingsAdapter adapter;
     FloatingActionButton fav;
     HTTPConnector httpConnector;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             }
         });
     }
+
     class HTTPConnector extends AsyncTask<String, Void, ArrayList> {
 
         @Override
