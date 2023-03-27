@@ -2,11 +2,18 @@ package david.pablo.uv.es;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -45,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     FloatingActionButton fav;
     HTTPConnector httpConnector;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +64,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         campings = new ArrayList<Camping>();
         httpConnector = new HTTPConnector();
         httpConnector.execute();
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
         editTextBusqueda.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             }
         });
     }
+
     class HTTPConnector extends AsyncTask<String, Void, ArrayList> {
 
         @Override
@@ -191,11 +193,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         Camping camping = campings.get(position);
         intent.putExtra("camping",camping);
         startActivity(intent);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.overflow,menu);
-        return true;
     }
     public void Ordenar_Ascendente(MenuItem item) {
         campings_filter = new ArrayList<>();

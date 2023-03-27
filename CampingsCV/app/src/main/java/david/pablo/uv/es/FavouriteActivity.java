@@ -30,12 +30,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class FavouriteActivity extends AppCompatActivity implements RecyclerViewInterface{
-
-
         RecyclerView recyclerView;
         EditText editTextBusqueda;
         ArrayList<Camping> campings;
-        ArrayList<Camping> campings_filter;
         CampingsAdapter adapter;
         FavDB favDB = new FavDB(this);
         FloatingActionButton fav;
@@ -73,6 +70,9 @@ public class FavouriteActivity extends AppCompatActivity implements RecyclerView
 
     @Override
     public void onItemClick(int position) {
-
+        Intent intent = new Intent(FavouriteActivity.this, DetailActivity.class);
+        Camping camping = campings.get(position);
+        intent.putExtra("camping",camping);
+        startActivity(intent);
     }
 }

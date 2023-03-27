@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DetailActivity"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="60dp">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -16,16 +16,17 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="40dp"
             android:background="@drawable/google_maps"
             android:onClick="showMap"/>
-        <Button
-            android:layout_width="190px"
-            android:layout_height="150px"
-            android:layout_gravity="center"
+        <ImageButton
+            android:layout_width="57dp"
+            android:layout_height="55dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="40dp"
             android:background="@drawable/sitio_web"
             android:onClick="showWeb"/>
-
-
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -99,6 +100,15 @@
             android:text="Plazas: 55"
             android:textColor="#1698D8"
             android:id="@+id/campingPlazas"
+            android:layout_toEndOf="@+id/campingDireccion"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="casual"
+            android:textSize="55px"
+            android:text="Distancia: No va"
+            android:textColor="#1698D8"
+            android:id="@+id/campingDistancia"
             android:layout_toEndOf="@+id/campingDireccion"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
