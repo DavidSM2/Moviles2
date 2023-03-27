@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -34,24 +35,14 @@ public class DetailActivity extends AppCompatActivity {
     Camping camping;
     FavDB favDB = new FavDB(this);
     FloatingActionButton fav;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
-    }
+    Location actLocation;
+    Address campingLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
         camping = (Camping) getIntent().getSerializableExtra("camping");
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-
         TextView textLugar = findViewById(R.id.campingLugar);
         TextView textNombre = findViewById(R.id.campingName);
         TextView textCorreo = findViewById(R.id.campingCorreo);
@@ -59,7 +50,6 @@ public class DetailActivity extends AppCompatActivity {
         TextView textDireccion = findViewById(R.id.campingDireccion);
         TextView textPeriodo = findViewById(R.id.campingPeriodo);
         TextView textPlazas = findViewById(R.id.campingPlazas);
-        TextView textDistancia = findViewById(R.id.campingDistancia);
         textLugar.setText(camping.getMunicipio() + "( " + camping.getProvincia() + ")");
         textNombre.setText(camping.getNombre());
         textCorreo.setText(camping.getCorreo());
@@ -88,45 +78,82 @@ public class DetailActivity extends AppCompatActivity {
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
+
             @Override
             public void onLocationChanged(Location location) {
-                // Este método se llama cuando la ubicación del usuario cambia
+                actLocation = location;
+            }
+
+            @Override
+            public void onLocationChanged(@NonNull List<Location> locations) {
+                LocationListener.super.onLocationChanged(locations);
+            }
+
+            @Override
+            public void onFlushComplete(int requestCode) {
+                LocationListener.super.onFlushComplete(requestCode);
             }
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
+                LocationListener.super.onStatusChanged(provider, status, extras);
             }
 
             @Override
-            public void onProviderEnabled(String provider) {
+            public void onProviderEnabled(@NonNull String provider) {
+                LocationListener.super.onProviderEnabled(provider);
             }
 
             @Override
-            public void onProviderDisabled(String provider) {
+            public void onProviderDisabled(@NonNull String provider) {
+                LocationListener.super.onProviderDisabled(provider);
             }
         };
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            textDistancia.setText("Distancia: " + latitude + " " + longitude);
-        }
-        else
-        {
-            textDistancia.setText("Dnd coño estas?");
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (location != null) {
+                actLocation = location;
+                calcularDistancia();
+            }
         }
 
+
+    }
+
+    private void calcularDistancia() {
+        cogerLocationCamping();
+
+        double longitud1 = actLocation.getLongitude();
+        double longitud2 = campingLocation.getLongitude();
+        double latitud1 = actLocation.getLatitude();
+        double latitud2 = campingLocation.getLatitude();
+
+        double radioTierra = 6371;
+        double dLat = Math.toRadians(latitud2 - latitud1);
+        double dLon = Math.toRadians(longitud2 - longitud1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(latitud1)) * Math.cos(Math.toRadians(latitud2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distancia = Math.round(radioTierra * c);
+
+        TextView textDistancia = findViewById(R.id.campingDistancia);
+        textDistancia.setText("Distancia al camping: " + distancia + " Km.");
+    }
+
+    private void cogerLocationCamping() {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        String campingAddress = camping.getDirecion();
+
+        try {
+
+            List<Address> addresses = geocoder.getFromLocationName(campingAddress, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                campingLocation = addresses.get(0);
+            }
+        } catch (IOException e) {}
     }
 
     public void showMap(View view) {

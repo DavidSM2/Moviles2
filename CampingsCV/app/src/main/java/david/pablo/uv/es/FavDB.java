@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FavDB extends SQLiteOpenHelper {
-    private static int DB_VERSION = 6;
+    private static int DB_VERSION = 7;
     private static String DATABASE_NAME = "CampingsDB";
     private static String TABLE_NAME = "favoriteTable";
     public static String KEY_ID = "id";
@@ -28,8 +28,9 @@ public class FavDB extends SQLiteOpenHelper {
     public static String PROVINCIA = "provincia";
     public static String MUNICIPIO = "municipio";
     public static String CORREO = "correo";
+    public static String DIRECCION = "direccion";
     private static String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY NOT NULL, " + CAMPING_NAME + " TEXT, " + CATEGORIA + " TEXT, "
-            + PROVINCIA + " TEXT, "+ MUNICIPIO + " TEXT, " + CORREO + " TEXT)";
+            + PROVINCIA + " TEXT, "+ MUNICIPIO + " TEXT, " + CORREO + " TEXT," + DIRECCION + " TEXT)";
     private static String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public FavDB(@Nullable Context context) {
@@ -55,6 +56,7 @@ public class FavDB extends SQLiteOpenHelper {
         values.put(PROVINCIA, camping.getProvincia());
         values.put(MUNICIPIO, camping.getMunicipio());
         values.put(CORREO, camping.getCorreo());
+        values.put(DIRECCION, camping.getDirecion());
         db.insert(TABLE_NAME,null,values);
 
         db.close();

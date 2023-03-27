@@ -64,11 +64,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         campings = new ArrayList<Camping>();
         httpConnector = new HTTPConnector();
         httpConnector.execute();
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
         editTextBusqueda.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -198,11 +193,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         Camping camping = campings.get(position);
         intent.putExtra("camping",camping);
         startActivity(intent);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.overflow,menu);
-        return true;
     }
     public void Ordenar_Ascendente(MenuItem item) {
         campings_filter = new ArrayList<>();
