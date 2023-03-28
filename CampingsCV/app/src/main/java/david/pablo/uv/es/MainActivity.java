@@ -110,8 +110,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             Writer writer = new StringWriter();
             char[] buffer = new char[1024];
             try {
+                String id = getLastId();
                 String url = "https://dadesobertes.gva.es/api/3/action/datastore_search?id=2ddaf823-5da4-4459-aa57-5bfe9f9eb474";
+                if(id != "")
+                    url = "https://dadesobertes.gva.es/api/3/action/datastore_search?id=" + id;
 
+                System.out.println(url);
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
                 con.setRequestMethod("GET");
@@ -149,25 +153,66 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                     String correo = JSONCamping.getString("Email");
                     String web = JSONCamping.getString("Web");
                     String periodo = JSONCamping.getString("Periodo");
-                    int plazas = JSONCamping.getInt("Plazas");
+                    String plazas = JSONCamping.getString("Plazas");
                     String direccion = JSONCamping.getString("Direccion");
-                    int cp = JSONCamping.getInt("CP");
-
-                    System.out.println(correo);
+                    String cp = JSONCamping.getString("CP");
                     Camping camping = new Camping(id, cp, periodo, plazas, direccion, web, nombre, categoria, provincia, municipio, correo);
                     campings.add(camping);
                 }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
-
             return campings;
         }
+
+        private String getLastId() {
+            ArrayList campings=new ArrayList<Camping>();
+            Writer writer = new StringWriter();
+            char[] buffer = new char[1024];
+            try {
+                String url = "https://dadesobertes.gva.es/api/3/action/package_search?q=dades-turisme-campings-comunitat-valenciana";
+
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+                con.setRequestMethod("GET");
+                //add request header
+                con.setRequestProperty("user-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
+                con.setRequestProperty("accept", "application/json;");
+                con.setRequestProperty("accept-language", "es");
+                con.connect();
+                int responseCode = con.getResponseCode();
+                if (responseCode != HttpURLConnection.HTTP_OK) {
+                    throw new IOException("HTTP error code: " + responseCode);
+                }
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+                int n;
+                while ((n = in.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+                in.close();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String id = "";
+            try {
+                JSONObject object = new JSONObject(writer.toString());
+                JSONArray JSONCampings = object.getJSONObject("result").getJSONArray("results").getJSONObject(0).getJSONArray("resources");
+                JSONObject JSONCamping = JSONCampings.getJSONObject(0);
+                id = JSONCamping.getString("id");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            return id;
+        }
+
         @Override
         protected void onPostExecute(ArrayList campings) {
             setupData(campings);
         }
     }
+
     private void setupData(ArrayList<Camping> campings){
         this.campings = campings;
         adapter = new CampingsAdapter(campings, getApplicationContext(),this);
