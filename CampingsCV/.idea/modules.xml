@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CampingsCV.iml" filepath="$PROJECT_DIR$/.idea/CampingsCV.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/CampingsCV.app.unitTest.iml" />
     </modules>
   </component>
 </project>
