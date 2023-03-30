@@ -16,9 +16,9 @@ public class Camping implements Serializable {
     private String Municipio;
     private String Correo;
 
- public Camping(String web, String s, String municipio, String periodo, String categoria, String provincia, String nombre, String direcion, String categoria1, String direcion1, String correo){
+     public Camping(String web, String s, String municipio, String periodo, String categoria, String provincia, String nombre, String direcion, String categoria1, String direcion1, String correo){
 
- }
+     }
 
     public Camping(int id, String cp, String periodo, String plazas, String direcion, String web, String nombre, String categoria, String provincia, String municipio, String correo) {
         Id = id;

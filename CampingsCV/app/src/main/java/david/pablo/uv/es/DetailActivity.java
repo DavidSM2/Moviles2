@@ -123,24 +123,28 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void calcularDistancia() {
+        TextView textDistancia = findViewById(R.id.campingDistancia);
         cogerLocationCamping();
 
-        double longitud1 = actLocation.getLongitude();
-        double longitud2 = campingLocation.getLongitude();
-        double latitud1 = actLocation.getLatitude();
-        double latitud2 = campingLocation.getLatitude();
+        if (actLocation != null && campingLocation != null) {
+            double longitud1 = actLocation.getLongitude();
+            double longitud2 = campingLocation.getLongitude();
+            double latitud1 = actLocation.getLatitude();
+            double latitud2 = campingLocation.getLatitude();
 
-        double radioTierra = 6371;
-        double dLat = Math.toRadians(latitud2 - latitud1);
-        double dLon = Math.toRadians(longitud2 - longitud1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(latitud1)) * Math.cos(Math.toRadians(latitud2)) *
-                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distancia = Math.round(radioTierra * c);
+            double radioTierra = 6371;
+            double dLat = Math.toRadians(latitud2 - latitud1);
+            double dLon = Math.toRadians(longitud2 - longitud1);
+            double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(Math.toRadians(latitud1)) * Math.cos(Math.toRadians(latitud2)) *
+                            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            double distancia = Math.round(radioTierra * c);
 
-        TextView textDistancia = findViewById(R.id.campingDistancia);
-        textDistancia.setText("Distancia al camping: " + distancia + " Km.");
+            textDistancia.setText("Distancia al camping: " + distancia + " Km.");
+        }
+        else
+            textDistancia.setText("");
     }
 
     private void cogerLocationCamping() {

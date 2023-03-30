@@ -21,7 +21,10 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -48,9 +51,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     EditText editTextBusqueda;
     ArrayList<Camping> campings;
     ArrayList<Camping> campings_filter;
+    Spinner spinner;
     CampingsAdapter adapter;
     FloatingActionButton fav;
     HTTPConnector httpConnector;
+
+    String[] opciones_spinner = {"Ordernar por...", "Nombre ascendente", "Nombre descendente"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         editTextBusqueda = findViewById(R.id.textoBusqueda);
         fav = findViewById(R.id.fav);
+        spinner = findViewById(R.id.camping_spinner);
         campings = new ArrayList<Camping>();
         httpConnector = new HTTPConnector();
         httpConnector.execute();
@@ -98,6 +105,40 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, FavouriteActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        ArrayAdapter<String> adapter_string = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones_spinner);
+        adapter_string.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter_string);
+        spinner.setSelection(0);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                campings_filter = new ArrayList<>();
+
+                switch (parent.getItemAtPosition(position).toString()){
+                    case "Nombre ascendente" :
+                        Collections.sort(campings, Camping.comparadorNombreAscendente);
+                    break;
+
+                    case "Nombre descendente" :
+                        Collections.sort(campings, Camping.comparadorNombreDescendente);
+                    break;
+
+                    default:
+                        httpConnector = new HTTPConnector();
+                        httpConnector.execute();
+                    break;
+                }
+
+                setupData(campings);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -222,31 +263,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         adapter = new CampingsAdapter(campings_filter, getApplicationContext(),this);
         recyclerView.setAdapter(adapter);
     }
-    public void Ordernar_Descendente(View view) {
-        campings_filter = new ArrayList<>();
-        Collections.sort(campings, Camping.comparadorNombreDescendente);
-        setupData(campings);
-    }
-    public void Ordernar_Ascendente(View view) {
-        campings_filter = new ArrayList<>();
-        Collections.sort(campings, Camping.comparadorNombreAscendente);
-        setupData(campings);
-    }
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         Camping camping = campings.get(position);
         intent.putExtra("camping",camping);
         startActivity(intent);
-    }
-    public void Ordenar_Ascendente(MenuItem item) {
-        campings_filter = new ArrayList<>();
-        Collections.sort(campings, Camping.comparadorNombreAscendente);
-        setupData(campings);
-    }
-    public void Ordernar_Descendente(MenuItem item) {
-        campings_filter = new ArrayList<>();
-        Collections.sort(campings, Camping.comparadorNombreDescendente);
-        setupData(campings);
     }
 }
