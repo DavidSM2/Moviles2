@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     FloatingActionButton fav;
     HTTPConnector httpConnector;
 
-    String[] opciones_spinner = {"Ordernar por...", "Nombre ascendente", "Nombre descendente"};
+    String[] opciones_spinner = {"Ordenar por...", "Nombre ascendente", "Nombre descendente", "Categoria"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String textoBusqueda = charSequence.toString().toLowerCase();
 
-                if (textoBusqueda == ""){
+                if ("".equals(textoBusqueda)){
                     setupData(campings);
                 }
 
@@ -116,21 +116,20 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                campings_filter = new ArrayList<>();
-
                 switch (parent.getItemAtPosition(position).toString()){
-                    case "Nombre ascendente" :
+                    case "Nombre ascendente":
                         Collections.sort(campings, Camping.comparadorNombreAscendente);
-                    break;
-
-                    case "Nombre descendente" :
+                        break;
+                    case "Nombre descendente":
                         Collections.sort(campings, Camping.comparadorNombreDescendente);
-                    break;
-
+                        break;
+                    case "Categoria":
+                        Collections.sort(campings, Camping.comparadorCategoria);
+                        break;
                     default:
                         httpConnector = new HTTPConnector();
                         httpConnector.execute();
-                    break;
+                        break;
                 }
 
                 setupData(campings);
@@ -156,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                 if(id != "")
                     url = "https://dadesobertes.gva.es/api/3/action/datastore_search?id=" + id;
 
-                System.out.println(url);
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
                 con.setRequestMethod("GET");
@@ -263,11 +261,31 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         adapter = new CampingsAdapter(campings_filter, getApplicationContext(),this);
         recyclerView.setAdapter(adapter);
     }
+    public void Ordernar_Descendente(View view) {
+        campings_filter = new ArrayList<>();
+        Collections.sort(campings, Camping.comparadorNombreDescendente);
+        setupData(campings);
+    }
+    public void Ordernar_Ascendente(View view) {
+        campings_filter = new ArrayList<>();
+        Collections.sort(campings, Camping.comparadorNombreAscendente);
+        setupData(campings);
+    }
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         Camping camping = campings.get(position);
         intent.putExtra("camping",camping);
         startActivity(intent);
+    }
+    public void Ordenar_Ascendente(MenuItem item) {
+        campings_filter = new ArrayList<>();
+        Collections.sort(campings, Camping.comparadorNombreAscendente);
+        setupData(campings);
+    }
+    public void Ordernar_Descendente(MenuItem item) {
+        campings_filter = new ArrayList<>();
+        Collections.sort(campings, Camping.comparadorNombreDescendente);
+        setupData(campings);
     }
 }

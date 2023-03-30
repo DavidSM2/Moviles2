@@ -2,6 +2,8 @@ package david.pablo.uv.es;
 
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Camping implements Serializable {
     private int Id;
@@ -15,6 +17,16 @@ public class Camping implements Serializable {
     private String Provincia;
     private String Municipio;
     private String Correo;
+
+    static Map<String, Integer> numerosMap = new HashMap<String, Integer>(){{
+        put("CINCO ESTRELLAS", 5);
+        put("CUATRO ESTRELLAS", 4);
+        put("TRES ESTRELLAS", 3);
+        put("DOS ESTRELLAS", 2);
+        put("SEGUNDA CATEGORÍA", 2);
+        put("UNA ESTRELLA", 1);
+        put("A PERNOCTA", 0);
+    }};
 
      public Camping(String web, String s, String municipio, String periodo, String categoria, String provincia, String nombre, String direcion, String categoria1, String direcion1, String correo){
 
@@ -95,6 +107,17 @@ public class Camping implements Serializable {
     public static Comparator<Camping> comparadorNombreAscendente = new Comparator<Camping>() {
         public int compare(Camping c1, Camping c2) {
             return c1.getNombre().compareTo(c2.getNombre());
+        }
+    };
+
+    public static Comparator<Camping> comparadorCategoria = new Comparator<Camping>() {
+        public int compare(Camping s1, Camping s2) {
+            Integer n1 = numerosMap.get(s1.getCategoria());
+            Integer n2 = numerosMap.get(s2.getCategoria());
+            if (n1 != null && n2 != null)
+                return n2 - n1;
+            else
+                return -10;
         }
     };
 }
